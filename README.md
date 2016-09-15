@@ -1,2 +1,11 @@
-# CtPe
-让酷Q与PhP连接起来（Connect CoolQ to Php）
+# 简介
+将酷Q与PhP对接起来，通过Http和WebSocket交互调用酷Q API
+
+文件说明
+--------
+`cc.1sls.CtPe.cpk` - 运行所需插件
+
+`sdk.php` - 酷Q函数文件，如果使用WebSocket交互则不可缺少
+使用前需将ip和port与插件设定一致
+
+`demo.php` - 模板文件，可以在此基础上继续编写代码或整合至原有代码
