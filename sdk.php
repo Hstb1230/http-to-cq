@@ -121,13 +121,134 @@ class WebsocketClient {
 	}
 
 class CoolQ {
-
+	
+	//静态API
+	public function sendAt($QQ,$NeedSpace=true) {//@某人
+		$QQ = $QQ=-1?'all':$QQ;
+		$a = "[CQ:at,qq=$QQ]";
+		$a.= $NeedSpace?' ':'';
+		return $a;
+	}
+	
+	public function sendEmoji($id){//发送Emoji表情
+		return "[CQ:emoji,id=$id]";
+	}
+	
+	public function sendFace($id){//发送表情
+	    return "[CQ:face,id=$id]";
+	}
+	
+	public function sendShake(){//发送窗口抖动
+		return "[CQ:shake]";
+	}
+	
+	public function AntiEscape ($msg) {//反转义
+		$msg = str_replace("&#91;","[",$msg);
+		$msg = str_replace("&#93;","]",$msg);
+		$msg = str_replace("&#44;",",",$msg);
+		$msg = str_replace("&amp;","&",$msg);
+		return $msg;
+	}
+	
+	public function Escape ($msg,$Comma_Escape=false) {//转义
+		//$Comma_Escape 逻辑型[bit] => 逗号是否转义
+		$msg = str_replace("[","&#91;",$msg);
+		$msg = str_replace("]","&#93;",$msg);
+		$msg = str_replace("&","&amp;",$msg);
+		if ($Comma_Escape) $msg = str_replace(",","&#44;",$msg);
+		return $msg;
+	}
+	
+	public function sendShare($Url,$Title=null,$Content=null,$PicUrl=null) {//发送链接分享
+		/*
+		$Url [text] => 点击卡片后跳转的网页地址
+		$Title [text] => 可空,分享的标题，建议12字以内
+		$Content [text] => 可空,分享的简介，建议30字以内
+		$PicUrl [text] => 可空,分享的图片链接，留空则为默认图片
+		*/
+		$msg = "[CQ:share,url=".Escape($Url,true);
+		if ($Title) $msg .= ",title=".Escape($Title,true);
+		if ($Content) $msg .= ",content=".Escape($Content,true);
+		if ($PicUrl) $msg .= ",image=".Escape($PicUrl,true);
+		$msg .= "]";
+		return $msg;
+	}
+	
+	public function sendCardShare($Type='qq',$ID) {//发送名片分享
+		return "[CQ:contact,type=".Escape($Type,true).",id=$ID";
+	}
+	
+	public function sendAnonymous($ignore=false) {//发送匿名消息
+	//$ignore =>是否不强制匿名,如果希望匿名失败时，将消息转为普通消息发送(而不是取消发送)，请置本参数为真。
+		$a = "[CQ:anonymous";
+        $a .= $ignore?',ignore=true]':']';
+		return $a;
+	}
+	
+	public function sendImage ($Filename) {//发送图片
+		return "[CQ:image,file=".Escape($Filename)."]";
+	}
+	
+	public function sendMusic ($SongID,$Type="qq") {//发送音乐
+	    //$Type => 音乐网站类型,目前支持 qq/QQ音乐 163/网易云音乐 xiami/虾米音乐，默认为qq
+		$msg = "[CQ:music,id=$SongID,type=".Escape($Type,true)."]";
+		return $msg;
+	}
+	
+	public function sendCustomMusic($Url,$Audio,$Title=null,$Content=null,$Image=null) {//发送自定义音乐分享
+	/*
+	参数 分享链接, 文本型, , 点击分享后进入的音乐页面（如歌曲介绍页）
+	参数 音频链接, 文本型, , 音乐的音频链接（如mp3链接）
+	参数 标题, 文本型, 可空, 音乐的标题，建议12字以内
+	参数 内容, 文本型, 可空, 音乐的简介，建议30字以内
+	参数 封面图片链接, 文本型, 可空, 音乐的封面图片链接，留空则为默认图片
+	*/
+		$para = ',url='.Escape($Url,true).',audio='.Escape($Audio,true);
+		if($Title) $para .= ',title='.Escape($Title,true);
+		if(Content) $para .= ',content='.Escape($Content,true);
+		if(Image) $para .= ',image='.Escape($Image,true);
+		return "[CQ:music,type=custom$para]";
+	}
+	
+	public function sendVoice ($Filename) {//发送语音
+		return "[CQ:record,file=".Escape($Filename)."]";
+	}
+	
+	public function sendBigFace($ID,$Sid) {//发送大表情(原创表情)
+		/* 
+		$ID [int] => 大表情所属系列的标识
+		$Sid [text] => 大表情的唯一标识
+		*/
+		return "[CQ:bface,p=$ID,id=$Sid]";
+	}
+	
+	public function Send_SmallFace($id) {//发送小表情
+		/*
+		参数: $id [int] => 小表情代号
+		*/
+		return "[CQ:sface,id=$id]";
+	}
+	
+	public function sendShow ($id,$qq=null,$content=null) {//发送厘米秀
+		/*
+		参数:
+		$id [int] => 动作代号
+		$qq [int64] => 双人动作的对象,非必须
+		$content [text] => 动作顺带的消息内容,不建议发送长文本
+		*/
+		$msg = "[CQ:show,id=$id";
+		if ($qq) $msg .= ",qq=$qq";
+		if ($content) $msg .= ",content=$content";
+		$msg .= "]";
+		return $msg;
+	}
+	
 	
 	public function __destruct() {
 		EndSocket();
 	}
 	
-	//一般情况下返回状态码(0为成功),详细说明请见 http://d.cqp.me/Pro/%E5%BC%80%E5%8F%91/Error
+	//下面为动态API，一般情况下返回状态码(0为成功),详细说明请见 http://d.cqp.me/Pro/%E5%BC%80%E5%8F%91/Error
 	
 	public function sendPrivateMsg($QQ,$Msg) {//发送私聊信息
 		$array = array(
