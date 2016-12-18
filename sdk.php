@@ -124,7 +124,7 @@ class CoolQ {
 	
 	//静态API
 	public function sendAt($QQ,$NeedSpace=true) {//@某人
-		$QQ = $QQ=-1?'all':$QQ;
+		$QQ = $QQ==-1?'all':$QQ;
 		$a = "[CQ:at,qq=$QQ]";
 		$a.= $NeedSpace?' ':'';
 		return $a;
