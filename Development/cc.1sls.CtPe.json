@@ -5,8 +5,8 @@
     "ret":1,					// 返回码，固定为1
     "apiver":9,					// Api版本，本SDK为9
     "name":"PhP对接",		// 应用名称
-    "version":"1.2",			// 应用版本
-    "version_id":125,				// 应用顺序版本（每次发布时至少+1）
+    "version":"1.4",			// 应用版本
+    "version_id":140,				// 应用顺序版本（每次发布时至少+1）
     "author":"Hstb",			// 应用作者
     "description":"让PhP与你的酷Q对接起来",
     "event":[					// 事件列表，同一事件类型可重复定义（发布前请删除无用事件）
@@ -115,8 +115,8 @@
             "function":"_menuA"		//菜单对应函数
         },
         {
-            "name":"跳转",
-            "function":"_menuB"
+            "name":"日志",
+            "function":"_menuC"
         }
     ],
     "status":[		// 悬浮窗状态（见 com.example.status 样例）
@@ -148,6 +148,8 @@
         131,  //取陌生人信息		getStrangerInfo
         140,  //置讨论组退出		setDiscussLeave
         150,  //置好友添加请求		setFriendAddRequest
-        151   //置群添加请求		setGroupAddRequest
+        151,  //置群添加请求		setGroupAddRequest
+		160,  //取群成员列表		getGroupMemberList
+		161   //取群列表			getGroupList
     ]
 }

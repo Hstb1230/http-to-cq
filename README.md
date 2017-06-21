@@ -1,14 +1,15 @@
 # 简介
-将酷Q与PhP对接起来，并通过Http和WebSocket交互调用酷Q API
+将酷Q与PhP对接起来，通过Http交互调用酷Q API
 
 文件说明
 --------
-`cc.1sls.CtPe.cpk` - 运行所需插件
+`cc.1sls.CtPe.cpk` - 运行所需组件,放置在app文件夹
 
-`sdk.php` - 酷Q函数文件，如果使用WebSocket交互(动态API)则不可缺少
-使用前需将ip和port与插件设定一致
+`log.dll` - 运行所需组件,放置在bin文件夹
 
-`demo.php` - 模板文件，可以在此基础上继续编写代码或整合至原有代码
+`sdk.php` - 酷Q函数文件,如果使用动态API时不可缺少,使用前需设置ip和port
+
+`demo.php` - 模板文件,可以在此基础上继续编写代码或整合原有代码
 
 相关链接
 --------
@@ -18,4 +19,4 @@
 
 1. https://cqp.cc/t-25331-1-1
 2. http://ask.1sls.cn/category-CtPe
-3. 553601318(QQ群,这里打广告会被肛吗?QAQ)
+3. Q群: 553601318
