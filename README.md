@@ -13,7 +13,9 @@
 
 相关链接
 --------
-开发文档：https://d.1sls.cn/CtPePro
+开发文档：
+* https://d.1sls.cn/CtPePro
+* https://github.com/Hstb1230/CtPe/wiki
 
 反馈地址：
 
