@@ -1,124 +1,32 @@
 <?php
 
-	/*
-	此处设置主机相关信息
-	如果是 本地ip(127.0.0.1) 的话不建议设置成 localhost
-	*/
-	$ip = '127.0.0.1';
-	$port = '19730';
-
-
-function ErrStop($text) {
-	die("Error:".$text);
+//设置主机相关信息
+$add = 'http://127.0.0.1:9999';  //主机ip,监听的端口
+	
+$useEncode = true;  //使用数据校验
+$key = '123';
+$secert ='456';
+	
+function getEncode() {//获取校验码
+    global $useEncode,$add;
+	if(!$useEncode) return "$add/";
+	global $key,$secert;
+	if(isset($key)) $hash = "$key";
+	$time = time();
+	$hash .= $time;
+	if(isset($secert)) $hash .= "$secert";
+	$hash = md5($hash);
+	$hash = "$add/$time/$hash/";
+	return $hash;
 }
 
-class WebsocketClient {
-	
-	private $_Socket = null;
-	
-	
-	public function __construct($host,$port) {
-		$this->_connect($host,$port);
-	}
- 
-	public function __destruct() {
-		fclose($this->_Socket);
-	}
-	
-	public function sendData($data) {//send actual data:
-	    fwrite($this->_Socket, $this->encode($data)) or ErrStop(iconv("GB2312", "UTF-8//IGNORE", $errstr).'('.$errno.')');
-		$wsData = fread($this->_Socket,8192);
-		$retData = trim($wsData,chr(0).chr(255));
-		return $retData;
-	}
-	
-	private function encode($data) {
-		$data = is_array( $data ) || is_object( $data ) ? json_encode( $data ) : (string) $data;
-		$len = strlen( $data );
-		$mask=array();
-		for ($j=0;$j<4;$j++) {
-			$mask[]=mt_rand(1,255);
-		}
-		$head[0] = 129;
-		if ( $len <= 125 ) {
-			$head[1] = $len;
-		} elseif ( $len <= 65535 ) {
-			$split = str_split( sprintf('%016b', $len ), 8 );
-			$head[1] = 126;
-			$head[2] = bindec( $split[0] );
-			$head[3] = bindec( $split[1] );
-		} else {
-			$split = str_split( sprintf('%064b', $len ), 8 );
-			$head[1] = 127;
-			for ( $i = 0; $i < 8; $i++ ) {
-				$head[$i+2] = bindec( $split[$i] );
-			}
-			if ( $head[2] > 127 ) {
-				return false;
-			}
-		}
-		$head[1]+=128;
-		$head=array_merge($head,$mask);
-		foreach( $head as $k => $v ) {
-			$head[$k] = chr( $v );
-		}
-		$mask_data='';
-		for ($j=0;$j<$len;$j++) {
-			$mask_data.=chr(ord($data[$j]) ^ $mask[$j % 4]);
-		}
-		return implode('', $head ).$mask_data;
-	}
-
-	private function _connect($host, $port) {
-		$key1 = $this->_generateRandomString(32);
-		$key2 = $this->_generateRandomString(32);
-		$key3 = $this->_generateRandomString(8, false, true);		
-        $header = "GET ws://".$host.":".$port."/ HTTP/1.1\r\n";
-        $header.= "Host: ".$host.":".$port."\r\n";
-        $header.= "Connection: Upgrade\r\n";
-        $header.= "Upgrade: websocket\r\n";
-        $header.= "Sec-WebSocket-Version: 13\r\n";
-        $header.= "Sec-WebSocket-Key: " . $key1 . "\r\n";
-        $header.= "\r\n";
-		$this->_Socket = fsockopen($host, $port, $errno, $errstr, 2);
-		fwrite($this->_Socket, $header) or ErrStop(iconv("GB2312", "UTF-8//IGNORE", $errstr).'('.$errno.')');
-		$response = fread($this->_Socket, 8192);
-		return true;
-	}
-   
-	private function _generateRandomString($length = 10, $addSpaces = true, $addNumbers = true) {  
-		$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$useChars = array();
-		// select some random chars:
-		for($i = 0; $i < $length; $i++)	{
-			$useChars[] = $characters[mt_rand(0, strlen($characters)-1)];
-		}
-		// add spaces and numbers:
-		if($addSpaces === true)	{
-			array_push($useChars, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-		}
-		if($addNumbers === true) {
-			array_push($useChars, rand(0,9), rand(0,9), rand(0,9));
-		}
-		shuffle($useChars);
-		$randomString = trim(implode('', $useChars));
-		$randomString = substr($randomString, 0, $length);
-		return $randomString;
-	}
+function SendData($json) {
+	$url = getEncode();
+	$arr = json_decode($json);
+	foreach ($arr as $key=>$value) $url .= $key=='Fun'?"$value?":"$key=".urlencode($value).'&';
+	$get = file_get_contents($url);
+	return $get;
 }
-
-	$WebSocketClient = new WebsocketClient($ip,$port);//建立连接,失败则无法运行本脚本
-	
-	function SendData($text) {
-		global $WebSocketClient; 
-		$Get = $WebSocketClient->sendData($text);
-		return $Get;
-	}
-	
-	function EndSocket() {
-		global $WebSocketClient; 
-		unset($WebSocketClient);//释放连接
-	}
 
 class CoolQ {
 	
@@ -242,12 +150,7 @@ class CoolQ {
 		$msg .= "]";
 		return $msg;
 	}
-	
-	
-	public function __destruct() {
-		EndSocket();
-	}
-	
+		
 	//下面为动态API，一般情况下返回状态码(0为成功),详细说明请见 http://d.cqp.me/Pro/%E5%BC%80%E5%8F%91/Error
 	
 	public function sendPrivateMsg($QQ,$Msg) {//发送私聊信息
@@ -587,6 +490,33 @@ class CoolQ {
 		$array = array(
 		    'Fun'=>'getImageInfo',
 			'File'=>$FileName//图片名,不带路径,并且必须是酷Q收到的图片
+			);
+		$Json = json_encode($array);
+		$Get = SendData($Json);
+		return $Get;//返回带有数据的Json文本
+	}
+	
+	public function getGroupMemberList($GroupID) {//获取群成员列表
+		$array = array(
+		    'Fun'=>'getGroupMemberList',
+			'Group'=>$GroupID
+			);
+		$Json = json_encode($array);
+		$Get = SendData($Json);
+		return $Get;//返回带有数据的Json文本
+	}
+	
+	public function getGroupList() {//获取群列表
+		$array = array(
+		    'Fun'=>'getGroupList'
+			);
+		$Json = json_encode($array);
+		$Get = SendData($Json);
+		return $Get;//返回带有数据的Json文本
+	}
+	public function getAuthCode() {//获取AuthCode
+		$array = array(
+		    'Fun'=>'getAuthCode'
 			);
 		$Json = json_encode($array);
 		$Get = SendData($Json);
