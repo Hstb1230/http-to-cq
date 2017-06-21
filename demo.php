@@ -1,62 +1,49 @@
 <?php
-//Get提交
-/*
-$input = $_GET['msg'];
-$Array = json_decode($input);
 
-*/
+//下面是两种获取数据的方法
+
+/* [1]使用"Json"数据格式提交
 
 //Post提交
 $input = file_get_contents("php://input"); //接收提交的所有POST数据
 $input = urldecode($input);//对提交的POST数据解码
-$Array = json_decode($input);//对解码后的数据进行Json解析
+
+//Get提交
+if(!$input and isset($_GET['msg'])) $input = urldecode($_GET['msg']);
+
+if(!$input)  exit;
+
+$Array = json_decode($input);//对数据进行Json解析
+$Array->{'Msg'} = urldecode($Array->{'Msg'});//URL解码
+
+*/
+
+/* [2]使用"Key=Value"数据格式提交
+
+$Array = !empty($_POST)?$_POST:$_GET;
+
+if(empty($Array)) exit;
+
+*/
 
 
-$a = '{"data":{"Type":'.$Array->{'Type'}.',"Group":'.$Array->{'Group'}.',"Msg":"FromHttp:'.urldecode($Array->{'Msg'}).'"}}';
-
-echo $a;
-
-
-//使用WebSocket发送
-include 'sdk.php';
-if ($Array->{'Type'}==2) $CQ->sendGroupMsg($Array->{'Group'},"ThisMsgFromSocket:".urldecode($Array->{'Msg'}));
-unset($CQ);//释放连接
-
-
-//使用Socket推送
-
-if (!extension_loaded('sockets')) {
-	if (strtoupper(substr(PHP_OS, 3)) == "WIN") {
-		dl('php_sockets.dll');
-    } else {
-		dl('sockets.so');
-    }
+/* 使用动态交互 
+include './sdk.php';
+//下面是发送消息例子
+switch ($Array->{'Type'}) {
+  case 1:
+  $CQ->sendPrivateMsg($Array->{'QQ'},'FromHttpSocket:'.$Array->{'Msg'});
+  break;
+case 2:
+  $CQ->sendGroupMsg($Array->{'Group'},'FromHttpSocket:'.$Array->{'Msg'});
+  break;
+case 4:
+  $CQ->sendDiscussMsg($Array->{'Group'},'FromHttpSocket:'.$Array->{'Msg'});
+  break;
+default:
+  exit('[]');
 }
+unset($CQ);//释放连接
+*/
 
-    $server_ip = "127.0.0.1";//插件所在主机的IP地址
-	$port = 19730;//插件监听的端口号
-   
-    $Key = '123';//插件设置的key
-    $Secert = '456';//插件设置的Secert
-   
-    $hash = ;
-    if ($Key) $hash =  "$Key:";
-    $time = time();
-    $hash .= $time; 
-    if ($Secert) $hash .= ":$Secert";
-    $hash = md5($hash);
-    
-	$JsonArray=json_decode($a);
-    $return = array(
-         "Time"=>$time,
-        'Sign'=>$hash,
-        'data'=>$JsonArray);
-    //$JsonArray是要处理的数据(未转为Json的数据数组)
-    $buf = json_encode($return);
-    $sock = @socket_create(AF_INET, SOCK_DGRAM, 0);
-    if (!@socket_sendto($sock, $buf, strlen($buf), 0, $server_ip, $port)) {
-        //发送数据失败
-        echo "send error\n";
-        socket_close($sock);
-        exit();
-    }
+exit('[]');
