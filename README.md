@@ -28,6 +28,6 @@
 
 反馈地址：
 
+* issue也可以
 * https://cqp.cc/t-25331-1-1
 * http://ask.1sls.cn
-* QQ群: 553601318
