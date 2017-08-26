@@ -15,7 +15,7 @@ class static_CoolQ
      * @param bool $needSpace  At后不加空格，默认为 True，可使At更规范美观。如果不需要添加空格，请置本参数为 False。
      * @return string CQ码_At
      */
-    public function sendAt($qq, $needSpace=true)
+    public function cqAt($qq, $needSpace=true)
     {
         if($qq==-1) $qq = 'all';
         return $needSpace?"[CQ:at,qq=$qq] ":"[CQ:at,qq=$qq]";
@@ -26,7 +26,7 @@ class static_CoolQ
      * @param int $id 表情ID，emoji的unicode编号
      * @return string CQ码_emoji
      */
-    public function sendEmoji($id)
+    public function cqEmoji($id)
     {
         return "[CQ:emoji,id=$id]";
     }
@@ -36,7 +36,7 @@ class static_CoolQ
      * @param int $id 表情ID，0 ~ 200+
      * @return string CQ码_表情
      */
-    public function sendFace($id)
+    public function cqFace($id)
     {
         return "[CQ:face,id=$id]";
     }
@@ -45,7 +45,7 @@ class static_CoolQ
      * 发送窗口抖动(shake) - 仅支持好友，腾讯已将其改名为戳一戳
      * @return string CQ码_窗口抖动
      */
-    public function sendShake()
+    public function cqShake()
     {
         return '[CQ:shake]';
     }
@@ -72,7 +72,7 @@ class static_CoolQ
      * @param string $picUrl 图片链接，可空，分享的图片链接，留空则为默认图片
      * @return string CQ码_链接分享
      */
-    public function sendShare($url,$title='',$content='',$picUrl='') //发送链接分享
+    public function cqShare($url,$title='',$content='',$picUrl='') //发送链接分享
     {
 
         $msg = '[CQ:share,url='.$this->escape($url,true);
@@ -88,10 +88,10 @@ class static_CoolQ
      * @param number $id 分享帐号，类型为qq，则为QQ号；类型为group，则为群号
      * @return string CQ码_名片分享
      */
-    public function sendCardShare($type='qq', $id)
+    public function cqCardShare($type='qq', $id)
     {
         $type = $this->escape($type,true);
-        return "[CQ:contact,type$type,id=$id]";
+        return "[CQ:contact,type=$type,id=$id]";
     }
 
     /**
@@ -99,7 +99,7 @@ class static_CoolQ
      * @param boolean $ignore 是否不强制，默认为 False。如果希望匿名失败时，将消息转为普通消息发送（而不是取消发送），请置本参数为 True
      * @return string CQ码_匿名
      */
-    public function sendAnonymous($ignore=false)
+    public function cqAnonymous($ignore=false)
     {
         return $ignore ? '[CQ:anonymous,ignore=true]' : '[CQ:anonymous]';
     }
@@ -109,14 +109,14 @@ class static_CoolQ
      * @param string $path 图片路径，可使用网络图片和本地图片．使用本地图片时需在路径前加入 file://
      * @return string CQ码_图片
      */
-    public function sendImage ($path)
+    public function cqImage ($path)
     {
         $path = $this->escape($path,true);
         return "[CQ:image,file=$path]";
     }
 
     /**
-     * 发送位置分享(location)
+     * 取CQ码_位置分享(location)
      * @param double $lat 纬度
      * @param double $lon 经度
      * @param int $zoom 放大倍数，可空，默认为 15
@@ -124,7 +124,7 @@ class static_CoolQ
      * @param string $content 地址，建议20字以内
      * @return string CQ码_位置分享
      */
-    public function sendLocation ($lat, $lon, $zoom=15, $title, $content)
+    public function cqLocation ($lat, $lon, $zoom=15, $title, $content)
     {
         $title = $this->escape($title,true);
         $content = $this->escape($content,true);
@@ -132,13 +132,13 @@ class static_CoolQ
     }
 
     /**
-     * 发送音乐(music)
+     * 取CQ码_音乐(music)
      * @param number $songID 音乐的歌曲数字ID
      * @param string $type 音乐网站类型，目前支持 qq/QQ音乐 163/网易云音乐 xiami/虾米音乐，默认为qq
      * @param bool $newStyle 是否启用新版样式，目前仅 QQ音乐 支持
      * @return string CQ码_音乐
      */
-    public function sendMusic ($songID, $type='qq', $newStyle=false) //发送音乐
+    public function cqMusic ($songID, $type='qq', $newStyle=false) //发送音乐
     {
         $type = $this->escape($type,true);
         $newStyle = $newStyle ? 1 : 0;
@@ -146,7 +146,7 @@ class static_CoolQ
     }
 
     /**
-     * 发送音乐自定义分享(music)
+     * 取CQ码_音乐自定义分享(music)
      * @param string $url 分享链接，点击分享后进入的音乐页面（如歌曲介绍页）
      * @param string $audio 音频链接，音乐的音频链接（如mp3链接）
      * @param string $title 标题，可空，音乐的标题，建议12字以内
@@ -154,7 +154,7 @@ class static_CoolQ
      * @param string $image 封面图片链接，可空，音乐的封面图片链接，留空则为默认图片
      * @return string CQ码_音乐自定义分享
      */
-    public function sendCustomMusic($url, $audio, $title='', $content='', $image='') //发送自定义音乐分享
+    public function cqCustomMusic($url, $audio, $title='', $content='', $image='') //发送自定义音乐分享
     {
         $url = $this->escape($url,true);
         $audio = $this->escape($audio,true);
@@ -166,11 +166,11 @@ class static_CoolQ
     }
 
     /**
-     * 发送语音(record)
+     * 取CQ码_语音(record)
      * @param string $path 语音路径，可使用网络和本地语音文件．使用本地语音文件时需在路径前加入 file://
      * @return string CQ码_语音
      */
-    public function sendVoice ($path)
+    public function cqRecord ($path)
     {
         $path = $this->escape($path,true);
         return "[CQ:record,file=$path]";
@@ -192,34 +192,34 @@ class static_CoolQ
     }
 
     /**
-     * 发送大表情(bface)
+     * 取CQ码_大表情(bface)
      * @param int $pID 大表情所属系列的标识
      * @param int $id 大表情的唯一标识
      * @return string CQ码_大表情
      */
-    public function sendBigFace($pID, $id)
+    public function cqBigFace($pID, $id)
     {
         return "[CQ:bface,p=$pID,id=$id]";
     }
 
     /**
-     * 发送小表情(sface)
+     * 取CQ码_小表情(sface)
      * @param int $id 小表情代码
      * @return string CQ码_小表情
      */
-    public function sendSmallFace($id)
+    public function cqSmallFace($id)
     {
         return "[CQ:sface,id=$id]";
     }
 
     /**
-     * 发送厘米秀(show)
+     * 取CQ码_厘米秀(show)
      * @param int $id 动作代码
      * @param number $qq 动作对象，可空，仅在双人动作时有效
      * @param string $content 消息内容，建议8个字以内
      * @return string CQ码_厘米秀
      */
-    public function sendShow ($id, $qq=null, $content='')
+    public function cqShow ($id, $qq=null, $content='')
     {
         $msg = '[CQ:show,id='.$id;
         if ($qq) $msg .= ',qq='.$qq;
@@ -232,7 +232,7 @@ class static_CoolQ
 class core_CoolQ extends static_CoolQ
 {
     /**
-     * 动态API
+     * 动态API与静态API混合版
      * 若API返回状态码，状态码为0时表示成功
      * 若API返回数组，
      *     则数组成员[Status]的值表示状态码，
@@ -241,13 +241,13 @@ class core_CoolQ extends static_CoolQ
      *     若不存在成员errMsg，则参考酷Q官方文库：
      *     http://d.cqp.me/Pro/%E5%BC%80%E5%8F%91/Error
      * 若因网络因素无法成功调用API，则状态码[Status]为 -504
+     * 如果不使用动态交互，即使用静态API，则部分API无法使用，调用时返回状态码 -501
      */
 
-    protected $add,$useCheck,$key,$time,$format;
+    protected $url,$key,$time,$format;
 
-    function __construct($add, $useCheck=false, $key='',$time = 30, $format='JSON') {
-        $this->add = $add;
-        $this->useCheck = $useCheck;
+    function __construct($url='', $key='',$time = 30, $format='JSON') {
+        $this->url = $url;
         $this->key = $key;
         $this->time = $time;
         $this->format = $format;
@@ -336,11 +336,18 @@ class core_CoolQ extends static_CoolQ
      */
     protected function sendData($arr,$time_out=8)
     {
-        if($this->useCheck) {
+        if(!$this->url) {
+            if(preg_match('/(send|set|addLog|rebootService)/i',$arr['fun'])) {
+                echo json_encode($arr)."\r\n";
+                return array('status'=>0);
+            }
+            return array('status'=>-501,'errmsg'=>'因策略原因，无法调用此API');
+        }
+        if($this->key) {
             $arr['authTime'] = time();
             $arr['authToken'] = md5($this->key.':'.$arr['authTime']);
         }
-        $get = $this->getHttpData($this->add,json_encode($arr),'','','',$time_out);
+        $get = $this->getHttpData($this->url,json_encode($arr),'','','',$time_out);
         $arr = json_decode($get,true);
         return (!empty($arr)) ? $arr : array('status'=>-504,'errmsg'=>'无法连接到服务端');
     }
@@ -392,7 +399,7 @@ class core_CoolQ extends static_CoolQ
             default:
                 $arr = array();
         }
-        if($this->useCheck) {
+        if($this->key) {
             if(isset($arr['authTime']) && isset($arr['authToken'])) {
                 $time = $arr['authTime'];
                 if($time - time() <= $this->time) {
@@ -423,9 +430,9 @@ class core_CoolQ extends static_CoolQ
 
 class get_CoolQ extends core_CoolQ
 {
-    function __construct($add, $useCheck = false, $key = '', $time = 30, $format = 'JSON')
+    function __construct($url = '', $key = '', $time = 30, $format = 'JSON')
     {
-        parent::__construct($add, $useCheck, $key, $time, $format);
+        parent::__construct($url, $key, $time, $format);
     }
 
     function __destruct()
@@ -810,14 +817,22 @@ class get_CoolQ extends core_CoolQ
         return $this->sendData($arr);
     }
 
+    /**
+     * 取版本信息
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：酷Q版本(air/pro)、插件版本
+     */
+    public function getVersion()
+    {
+        return $this->getNoParamReturn('getVersion');
+    }
 
 }
 
 class send_CoolQ extends get_CoolQ
 {
-    function __construct($add, $useCheck = false, $key = '', $time = 30, $format = 'JSON')
+    function __construct($url = '', $key = '', $time = 30, $format = 'JSON')
     {
-        parent::__construct($add, $useCheck, $key, $time, $format);
+        parent::__construct($url, $key, $time, $format);
     }
 
     function __destruct()
@@ -880,9 +895,9 @@ class send_CoolQ extends get_CoolQ
 
 class set_CoolQ extends send_CoolQ
 {
-    function __construct($add, $useCheck = false, $key = '', $time = 30, $format = 'JSON')
+    function __construct($url = '', $key = '', $time = 30, $format = 'JSON')
     {
-        parent::__construct($add, $useCheck, $key, $time, $format);
+        parent::__construct($url, $key, $time, $format);
     }
 
     function __destruct()
@@ -1147,15 +1162,14 @@ class CoolQ extends set_CoolQ
 
     /**
      * CoolQ constructor.
-     * @param string $add 主机信息
-     * @param bool $useCheck 使用数据校验
+     * @param string $url 主机信息
      * @param string $key 数据校验所需 Key
      * @param int $time 数据有效时间
      * @param string $format 数据格式
      */
-    function __construct($add, $useCheck = false, $key = '', $time = 30, $format = 'JSON')
+    function __construct($url = '', $key = '', $time = 30, $format = 'JSON')
     {
-        parent::__construct($add, $useCheck, $key, $time, $format);
+        parent::__construct($url, $key, $time, $format);
     }
 
     function __destruct()
