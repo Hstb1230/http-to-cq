@@ -241,7 +241,7 @@ class core_CoolQ extends static_CoolQ
      *     若不存在成员errMsg，则参考酷Q官方文库：
      *     http://d.cqp.me/Pro/%E5%BC%80%E5%8F%91/Error
      * 若因网络因素无法成功调用API，则状态码[Status]为 -504
-     * 如果不使用动态交互，即使用静态API，则部分API无法使用，调用时返回状态码 -501
+     * 如果不使用动态交互，即使用静态API，则部分API无法使用，此部分API调用时返回状态码 -501
      */
 
     protected $url,$key,$time,$format;
@@ -336,6 +336,7 @@ class core_CoolQ extends static_CoolQ
      */
     protected function sendData($arr,$time_out=8)
     {
+        //print_r($arr);
         if(!$this->url) {
             if(preg_match('/(send|set|addLog|rebootService)/i',$arr['fun'])) {
                 echo json_encode($arr)."\r\n";
@@ -402,7 +403,7 @@ class core_CoolQ extends static_CoolQ
         if($this->key) {
             if(isset($arr['authTime']) && isset($arr['authToken'])) {
                 $time = $arr['authTime'];
-                if($time - time() <= $this->time) {
+                if(time() - $time <= $this->time) {
                     $token = strtolower($arr['authToken']);
                     if($token == md5($this->key.':'.$time)) {
                         unset($arr['authTime'],$arr['authToken']);
@@ -414,14 +415,6 @@ class core_CoolQ extends static_CoolQ
                 }
             }else{
                 $arr = array();
-            }
-        }
-        if($arr) {
-            $tempArray = $arr;
-            $arr = array();
-            foreach ($tempArray as $key=>$value) {
-                if(preg_match('/^[A-Z]+$/', substr($key,0,1))) $key = strtolower($key);
-                $arr[$key] = $value;
             }
         }
         return $arr;
@@ -638,7 +631,7 @@ class get_CoolQ extends core_CoolQ
     }
 
     /**
-     * 获取群成员列表
+     * 取群成员列表
      * @auth 160
      * @param number $groupID 目标群
      * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群的群成员列表
@@ -676,7 +669,7 @@ class get_CoolQ extends core_CoolQ
 
     /**
      * 取登录昵称
-     * @return string 当前登录QQ的昵称
+     * @return string 当前登录QQ的昵称，失败返回空
      */
     public function getLoginNick()
     {
@@ -696,7 +689,7 @@ class get_CoolQ extends core_CoolQ
 
     /**
      * 批量取群头像
-     * @auth 20
+     * @auth 20，161
      * @param string $groupList 群列表，每个群用 - 分开，可空，参数值为空时，取所有群的头像
      * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的群号的头像链接列表
      */
@@ -769,7 +762,7 @@ class get_CoolQ extends core_CoolQ
 
     /**
      * 取软件状态
-     * 像服务端发送一条消息，确认是否奔溃
+     * 向服务端发送一条消息，确认是否奔溃
      * @param int $time 最长等待时间，单位/秒，默认为3
      * @return bool 运行正常返回 True，奔溃情况下返回 False
      */
@@ -1132,7 +1125,7 @@ class set_CoolQ extends send_CoolQ
      * @param string $data 数据内容
      * @param string $unit 数据单位
      * @param int $color 颜色，1/绿 2/橙 3/红 4/深红 5/黑 6/灰
-     * @return string|int 悬浮窗文本，无用
+     * @return string 悬浮窗文本，无用
      */
     public function setStatus($data, $unit, $color)
     {
@@ -1142,8 +1135,8 @@ class set_CoolQ extends send_CoolQ
             'unit'=>$unit,
             'color'=>$color
         );
-        $arr = $this->sendData($array);
-        return (!$arr['status']) ? $array['result'] : $arr['status'];
+        $array = $this->sendData($array);
+        return (!$array['status']) ? $array['result'] : null;
     }
 
 
