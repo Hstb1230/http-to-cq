@@ -38,8 +38,9 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 ## 文档
 
 遇到使用问题时，可以先翻翻它：
-* [wiki]
 * [ZeroDoc]
+* [GitBook]
+* [wiki]
 
 ## 反馈地址
 * [Q群]
@@ -53,3 +54,4 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [wiki]: https://github.com/Hstb1230/CtPe/wiki
 [ZeroDoc]: http://doc.inlinc.org/http-to-cq/
 [Release]: https://github.com/Hstb1230/CtPe/releases
+[GitBook]: https://hstb1230.gitbooks.io/http-to-cq/content/
