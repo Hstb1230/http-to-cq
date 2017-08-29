@@ -32,6 +32,7 @@ elif array['type'] == 2:
     """群消息"""
     if msg == '你好':
         cq.send_group_msg(array['group'], '%s 我是小娜' % cq.cq_at(qq))
+        cq.send_group_msg(array['group'], '你是我的闺蜜Siri吗')
     else:
         cq.send_group_msg(array['group'], '收到一条消息：%s' % msg)
 

@@ -3,6 +3,7 @@
 //ini_set('display_errors', '1');
 
 include 'CoolQ.config.php';
+
 $array = $CQ->receive(); //接收插件推送的数据
 if(!$array) exit; //没传入数据，终止运行
 
@@ -18,10 +19,8 @@ switch($array['type']) {
         //收到群聊天信息
         $group = $array['group'];
         $msg = $array['msg'];
-        //print_r($array);
         if($msg == '你好') {
-            $CQ->sendGroupMsg($group, '你好');
-            $CQ->sendGroupMsg($group, '我是小娜');
+            $CQ->sendGroupMsg($group, "你好\r\n我是小娜");
             $CQ->sendGroupMsg($group,'你是我的闺蜜Siri吗');
             $CQ->sendGroupMsg($group,$CQ->cqAt($array['qq']));
         }

@@ -395,14 +395,14 @@ class GetCoolQ (CoreCoolQ):
         :param source: 匿名成员的标识
         :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该匿名成员的信息
         """
-        return self.get_source('getAnonymousInfo', source)
+        return self.get_source('get_anonymous_info', source)
 
-    def get_auth_code(self) -> int:
+    def get_auth_info(self) -> object:
         """
-        取AuthCode
+        获取权限信息
 
-        :rtype: int
-        :return: 成功时返回AuthCode，失败时返回负值
+        :rtype: object
+        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：AuthCode，Cookies，CsrfToken
         """
         array = self.get_no_param_return('getAuthCode')
         return int(array['result'] if not array['status'] else array['status'])
@@ -419,41 +419,6 @@ class GetCoolQ (CoreCoolQ):
         arr = self.new_array('getBanList', group_id)
         return self.send_data(arr)
 
-    def get_ban_status(self, group_id: int) -> object:
-        """
-        取解禁剩余时间
-
-        :auth: 20
-        :param group_id: 目标群
-        :rtype: int
-        :return: 禁言剩余时间，单位：秒，0为未禁言，获取失败时为负值
-        """
-        arr = self.new_array('getBanStatus', group_id)
-        arr = self.send_data(arr)
-        return int(arr['result'] if not arr['status'] else arr['status'])
-
-    def get_cookies(self) -> str:
-        """
-        取Cookies
-
-        :auth: 20
-        :rtype: str
-        :return: Cookies
-        """
-        arr = self.get_no_param_return('get_cookies')
-        return arr['result'] if not arr['status'] else ''
-
-    def get_csrf_token(self) -> str:
-        """
-        取CsrfToken，即QQ网页用到的 bkn/g_tk等
-
-        :auth: 20
-        :rtype: str
-        :return: CsrfToken
-        """
-        arr = self.get_no_param_return('get_csrf_token')
-        return arr['result'] if not arr['status'] else ''
-
     def get_file_info(self, source) -> object:
         """
         取文件信息
@@ -463,16 +428,6 @@ class GetCoolQ (CoreCoolQ):
         :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该文件的文件属性
         """
         return self.get_source('get_file_info', source)
-
-    def get_font_info(self, _id) -> object:
-        """
-        取字体信息
-
-        :param _id: 字体id
-        :rtype: object
-        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该字体的属性
-        """
-        return self.get_source('get_font_info', id)
 
     def get_friend_list(self) -> object:
         """
@@ -505,27 +460,16 @@ class GetCoolQ (CoreCoolQ):
         array = self.new_array('get_group_top_note', group_id)
         return self.send_data(array)
 
-    def get_headimg_link(self, qq, size=100):
-        """
-        取头像链接
-
-        :auth: 20
-        :param qq: 目标QQ
-        :param size: 头像尺寸，默认 100
-        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该QQ的头像链接
-        """
-        array = self.new_array('get_headimg_link', 0, qq)
-        array['size'] = size
-        return self.send_data(array)
-
-    def get_image_info(self, path) -> object:
+    def get_image_info(self, path, need_file=True) -> object:
         """
         取图片信息
 
         :param path: 图片文件名，不带路径，并且必须是酷Q收到的图片
+        :param need_file: 回传文件内容，True/回传，False/不回传
         :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该图片信息
         """
-        return self.get_source('get_image_info', path)
+        array = dict(fun='get_image_info', source=path, needFile=need_file)
+        return self.send_data(array)
 
     def get_group_homework_list(self, group_id) -> object:
         """
@@ -601,37 +545,16 @@ class GetCoolQ (CoreCoolQ):
         array['number'] = number
         return self.send_data(array)
 
-    def get_level_info(self, qq=0) -> object:
+    def get_login_info(self) -> object:
         """
-        取等级信息
+        取登录QQ的信息
 
+        该API可能需要获取Cookies权限
         :auth: 20
-        :param qq: 目标QQ，可空，空时取机器人等级信息
         :rtype: object
-        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的等级信息
+        :return: 当前登录QQ的相关信息
         """
-        array = self.new_array('get_level_info', 0, qq)
-        return self.send_data(array)
-
-    def get_login_nick(self) -> str:
-        """
-        取登录昵称
-
-        :rtype: str
-        :return: 当前登录QQ的昵称，失败返回空
-        """
-        array = self.get_no_param_return('get_login_nick')
-        return array['result'] if not array['status'] else ''
-
-    def get_login_qq(self) -> int:
-        """
-        取登录QQ
-
-        :rtype: int
-        :return: 当前登录的机器人QQ，失败返回0
-        """
-        array = self.get_no_param_return('get_login_qq')
-        return array['result'] if not array['status'] else 0
+        return self.get_no_param_return('get_login_info')
 
     def get_more_group_headimg(self, group_list='') -> object:
         """
@@ -644,59 +567,32 @@ class GetCoolQ (CoreCoolQ):
         """
         return self.send_data(dict(fun='get_more_group_headimg', groupList=group_list))
 
-    def get_more_qq_headimg(self, qq_list, size=100) -> object:
+    def get_more_qq_info(self, qq_list) -> object:
         """
-        批量取QQ头像
-
-        :auth: 20
-        :param qq_list: QQ列表，每个QQ用 _ 分开
-        :param size: 头像尺寸，默认100
-        :rtype: object
-        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的头像链接列表
-        """
-        array = dict(fun='get_more_qq_headimg', qqList=qq_list, size=size)
-        return self.send_data(array)
-
-    def get_more_qq_name(self, qq_list) -> object:
-        """
-        批量取QQ昵称
+        批量取QQ信息
 
         :auth: 20
         :param qq_list: QQ列表，每个QQ用 - 分开
         :rtype: object
         :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的昵称列表
         """
-        array = dict(fun='get_more_qq_name', qqList=qq_list)
+        array = dict(fun='get_more_qq_info', qqList=qq_list)
         return self.send_data(array)
 
-    def get_record(self, file_name, _format='mp3') -> object:
+    def get_record(self, file_name, _format='mp3', need_file=True) -> object:
         """
         接收消息中的语音(record)
 
         :auth: 30
         :param file_name: 文件名，收到消息中的语音文件名(file)
         :param _format: 转码成何种音频文件，目前支持 mp3,amr,wma,m4a,spx,ogg,wav,flac，默认 mp3
+        :param need_file: 回传文件，True/回传，False/不回传
         :rtype: object
         :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：解析该文件后，保存在 \data\record\ 目录下的语音文件名
         """
-        array = dict(fun='getRecord', source=file_name, format=_format)
+        array = dict(fun='getRecord', source=file_name, format=_format, needFile=need_file)
         array = self.send_data(array)
-        return array['result'] if not array['status'] else ''
-
-    def get_record_file(self, file_name, _format='mp3') -> object:
-        """
-        获取消息中的语音文件(record)
-
-        本函数可以获取到完整文件
-
-        :auth: 30
-        :param file_name: 文件名，收到消息中的语音文件名(file)
-        :param _format: 指定格式，应用所需的语音文件格式，目前支持 mp3,amr,wma,m4a,spx,ogg,wav,flac
-        :rtype: object
-        :return: 成功时，数组中成员Status的值为0，并在成员Result中返回：该语音文件内容(BASE64编码)
-        """
-        array = dict(fun='getRecordFile', source=file_name, format=_format)
-        return self.send_data(array)
+        return array
 
     def get_run_status(self, time=3) -> bool:
         """
@@ -772,6 +668,18 @@ class SendCoolQ (GetCoolQ):
         :return: 状态码
         """
         return self.send_msg('send_discuss_msg', group, 0, msg)
+
+    def send_flower(self, group, qq) -> int:
+        """
+        送花
+
+        :auth: 103
+        :param group: 目标群
+        :param qq: QQ号
+        :rtype: int
+        :return: 状态码
+        """
+        return self.send_msg('send_flower', group, qq)
 
     def send_group_msg(self, group, msg) -> int:
         """
@@ -872,7 +780,7 @@ class SetCoolQ (SendCoolQ):
         :return: 状态码，0为成功
         """
         array = self.new_array('set_group_admin', group, qq)
-        array['become'] = 1 if become else 0
+        array['become'] = become
         array = self.send_data(array)
         return array['status']
 
@@ -887,7 +795,7 @@ class SetCoolQ (SendCoolQ):
         :return: 状态码
         """
         array = self.new_array('set_group_anonymous', group)
-        array['open'] = 1 if _open else 0
+        array['open'] = _open
         array = self.send_data(array)
         return array['status']
 
@@ -951,7 +859,7 @@ class SetCoolQ (SendCoolQ):
         :return: 状态码
         """
         array = self.new_array('set_group_leave', group)
-        disband = 1 if disband else 0
+        disband = disband
         array['disband'] = disband
         array = self.send_data(array)
         return array['status']
@@ -968,7 +876,7 @@ class SetCoolQ (SendCoolQ):
         :return: 状态码
         """
         array = self.new_array('set_group_kick', group, qq)
-        array['refuseJoin'] = 1 if refuse_join else 0
+        array['refuseJoin'] = refuse_join
         array = self.send_data(array)
         return array['status']
 
@@ -1014,7 +922,7 @@ class SetCoolQ (SendCoolQ):
         :return: 状态码
         """
         arr = self.new_array('set_group_whole_ban', group)
-        arr['open'] = 1 if _open else 0
+        arr['open'] = _open
         arr = self.send_data(arr)
         return arr['status']
 

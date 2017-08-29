@@ -336,7 +336,6 @@ class core_CoolQ extends static_CoolQ
      */
     protected function sendData($arr,$time_out=8)
     {
-        //print_r($arr);
         if(!$this->url) {
             if(preg_match('/(send|set|addLog|rebootService)/i',$arr['fun'])) {
                 echo json_encode($arr)."\r\n";
@@ -350,6 +349,8 @@ class core_CoolQ extends static_CoolQ
         }
         $get = $this->getHttpData($this->url,json_encode($arr),'','','',$time_out);
         $arr = json_decode($get,true);
+        if(!empty($arr)) unset($arr['request']);
+        echo json_encode($arr);
         return (!empty($arr)) ? $arr : array('status'=>-504,'errmsg'=>'无法连接到服务端');
     }
 
@@ -398,6 +399,7 @@ class core_CoolQ extends static_CoolQ
                 if(isset($arr['anonymousInfo'])) $arr['anonymousInfo'] = json_decode($arr['anonymousInfo'],true);
                 break;
             default:
+                echo "不支持的数据格式\r\n";
                 $arr = array();
         }
         if($this->key) {
@@ -408,12 +410,15 @@ class core_CoolQ extends static_CoolQ
                     if($token == md5($this->key.':'.$time)) {
                         unset($arr['authTime'],$arr['authToken']);
                     }else{
+                        echo "传上来的authToken有问题\r\n";
                         $arr = array();
                     }
                 }else{
+                    echo "传上来的时间过期\r\n";
                     $arr = array();
                 }
             }else{
+                echo "未传递校验参数\r\n";
                 $arr = array();
             }
         }
@@ -444,60 +449,26 @@ class get_CoolQ extends core_CoolQ
     }
 
     /**
-     * 获取AuthCode
-     * @return int AuthCode，失败时返回负值
+     * 获取权限信息
+     * 返回值包括AuthCode，Cookies，CsrfToken
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：AuthInfo
      */
-    public function getAuthCode()
+    public function getAuthInfo()
     {
-        $arr = $this->getNoParamReturn('getAuthCode');
-        return (!$arr['status']) ? $arr['result'] : $arr['status'];
+        return $this->getNoParamReturn('getAuthInfo');
     }
 
     /**
      * 取指定群中被禁言用户列表
+     * 需要机器人具有管理身份
      * @auth 20
-     * @param number $groupID 目标群
+     * @param number $group 目标群
      * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群中被禁言的用户列表
      */
-    public function getBanList($groupID)
+    public function getBanList($group)
     {
-        $arr = $this->newArray('getBanList',$groupID);
+        $arr = $this->newArray('getBanList',$group);
         return $this->sendData($arr);
-    }
-
-    /**
-     * 取解禁剩余时间
-     * @auth 20
-     * @param number $groupID 目标群
-     * @return int 禁言剩余时间，单位：秒，0为未禁言，获取失败时为负值
-     */
-    public function getBanStatus($groupID)
-    {
-        $arr = $this->newArray('getBanStatus',$groupID);
-        $arr = $this->sendData($arr);
-        return (!$arr['status']) ? $arr['result'] : $arr['status'];
-    }
-
-    /**
-     * 取Cookies
-     * @auth 20
-     * @return string Cookies
-     */
-    public function getCookies()
-    {
-        $arr = $this->getNoParamReturn('getCookies');
-        return (!$arr['status']) ? $arr['result'] : null;
-    }
-
-    /**
-     * 取CsrfToken，即QQ网页用到的 bkn/g_tk等
-     * @auth 20
-     * @return int CsrfToken
-     */
-    public function getCsrfToken()
-    {
-        $arr = $this->getNoParamReturn('getCsrfToken');
-        return (!$arr['status']) ? $arr['result'] : null;
     }
 
     /**
@@ -511,17 +482,6 @@ class get_CoolQ extends core_CoolQ
     }
 
     /**
-     * 取字体信息
-     * @param int $id 字体代码
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该字体信息
-     */
-    public function getFontInfo($id)
-    {
-        $arr = array('fun'=>'getFontInfo','id'=>$id);
-        return $this->sendData($arr);
-    }
-
-    /**
      * 取好友列表
      * @auth 20
      * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：当前机器人所加的好友信息列表
@@ -529,6 +489,20 @@ class get_CoolQ extends core_CoolQ
     public function getFriendList()
     {
         return $this->getNoParamReturn('getFriendList');
+    }
+
+    /**
+     * 取群作业列表
+     * @auth 20
+     * @param number $groupID 目标群
+     * @param int $number 取出数量
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群的作业列表(不存在未指定给机器人查看的作业)
+     */
+    public function getGroupHomeworkList($groupID, $number=10)
+    {
+        $arr = $this->newArray('getGroupHomeworkList',$groupID);
+        $arr['number'] = $number;
+        return $this->sendData($arr);
     }
 
     /**
@@ -540,54 +514,6 @@ class get_CoolQ extends core_CoolQ
     public function getGroupInfo($groupID)
     {
         $arr = $this->newArray('getGroupInfo',$groupID);
-        return $this->sendData($arr);
-    }
-
-    /**
-     * 取群置顶公告
-     * @auth 20
-     * @param number $groupID 目标群
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群的置顶公告(本群须知)信息
-     */
-    public function getGroupTopNote($groupID)
-    {
-        $arr = $this->newArray('getGroupTopNote',$groupID);
-        return $this->sendData($arr);
-    }
-
-    /**
-     * 取头像链接
-     * @auth 20
-     * @param number $qq 目标QQ
-     * @param int $size 头像尺寸，默认 100
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该QQ的头像链接
-     */
-    public function getHeadimgLink($qq,$size=100)
-    {
-        $arr = $this->newArray('getHeadimgLink',$qq);
-        $arr['size'] = $size;
-        return $this->sendData($arr);
-    }
-
-    /**
-     * 获取图片信息
-     * @param string $path 图片文件名，不带路径，并且必须是酷Q收到的图片
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该图片信息
-     */
-    public function getImageInfo($path)
-    {
-        return $this->getSource('getImageInfo',$path);
-    }
-
-    /**
-     * 取群作业列表
-     * @auth 20
-     * @param number $groupID 目标群
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群的作业列表(不存在未指定给机器人查看的作业)
-     */
-    public function getGroupHomeworkList($groupID)
-    {
-        $arr = $this->newArray('getGroupHomeworkList',$groupID);
         return $this->sendData($arr);
     }
 
@@ -626,7 +552,7 @@ class get_CoolQ extends core_CoolQ
     public function getGroupMemberInfo($group, $qq, $useCache=true)
     {
         $arr = $this->newArray('getGroupMemberInfo',$group,$qq);
-        $arr['cache'] = $useCache ? 1 : 0;
+        $arr['cache'] = $useCache;
         return $this->sendData($arr);
     }
 
@@ -657,34 +583,38 @@ class get_CoolQ extends core_CoolQ
     }
 
     /**
-     * 取用户等级信息
-     * @param int $qq 可空，空时取机器人等级信息
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的等级信息
+     * 取群置顶公告
+     * @auth 20
+     * @param number $groupID 目标群
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该群的置顶公告(本群须知)信息
      */
-    public function getLevelInfo($qq=0)
+    public function getGroupTopNote($groupID)
     {
-        $arr = $this->newArray('getLevelInfo','',$qq);
+        $arr = $this->newArray('getGroupTopNote',$groupID);
         return $this->sendData($arr);
     }
 
     /**
-     * 取登录昵称
-     * @return string 当前登录QQ的昵称，失败返回空
+     * 获取图片信息
+     * @param string $path 图片文件名，不带路径，并且必须是酷Q收到的图片
+     * @param boolean $needFile 回传文件内容，默认为True
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该图片信息
      */
-    public function getLoginNick()
+    public function getImageInfo($path, $needFile=true)
     {
-        $arr = $this->getNoParamReturn('getLoginNick');
-        return (!$arr['status']) ? $arr['result'] : null;
+        $array = array('fun'=>'getImageInfo', 'source'=>$path, 'needFile'=>$needFile);
+        return $this->sendData($array);
     }
 
     /**
-     * 取登录QQ
-     * @return int 登录QQ
+     * 取登录QQ信息
+     * 该API可能需要获取Cookies权限
+     * @auth 20
+     * @return array 登录QQ的信息
      */
-    public function getLoginQQ()
+    public function getLoginQQInfo()
     {
-        $arr = $this->getNoParamReturn('getLoginQQ');
-        return (!$arr['status']) ? $arr['result'] : null;
+        return $this->getNoParamReturn('getLoginQQInfo');
     }
 
     /**
@@ -700,27 +630,14 @@ class get_CoolQ extends core_CoolQ
     }
 
     /**
-     * 批量取QQ头像
-     * @auth 20
-     * @param string $qqList QQ列表，每个QQ用 _ 分开
-     * @param int $size 头像尺寸，默认100
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的头像链接列表
-     */
-    public function getMoreQQHeadimg($qqList, $size=100)
-    {
-        $array = array('fun'=>'getMoreQQHeadimg', 'qqList'=>$qqList, 'size'=>$size);
-        return $this->sendData($array);
-    }
-
-    /**
-     * 批量取QQ昵称
+     * 批量取QQ信息
      * @auth 20
      * @param string $qqList QQ列表，每个QQ用 - 分开
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的昵称列表
+     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：所提供的QQ的信息列表
      */
-    public function getMoreQQName($qqList)
+    public function getMoreQQInfo($qqList)
     {
-        $arr = array('fun'=>'getMoreQQName', 'qqList'=>$qqList);
+        $arr = array('fun'=>'getMoreQQInfo', 'qqList'=>$qqList);
         return $this->sendData($arr);
     }
 
@@ -729,35 +646,19 @@ class get_CoolQ extends core_CoolQ
      * @auth 30
      * @param string $fileName 文件名，收到消息中的语音文件名(file)
      * @param string $format 转码成何种音频文件，目前支持 mp3,amr,wma,m4a,spx,ogg,wav,flac，默认 mp3
-     * @return string 成功时，数组中成员Status的值为0，并在成员Result中返回：解析该文件后，保存在 \data\record\ 目录下的语音文件名
+     * @param boolean $needFile 是否回传文件数据，默认为True
+     * @return string 成功时，数组中成员Status的值为0，并在成员Result中返回：该语音文件的信息(文件名，内容)
      */
-    public function getRecord($fileName, $format='mp3')
+    public function getRecord($fileName, $format='mp3', $needFile=true)
     {
         $array = array(
             'fun'=>'getRecord',
             'source'=>$fileName,
-            'format'=>$format
+            'format'=>$format,
+            'needFile'=>$needFile
         );
         $arr = $this->sendData($array);
         return (!$arr['status']) ? $arr ['result'] : null;
-    }
-
-    /**
-     * 获取消息中的语音文件(record)
-     * 本函数可以获取到完整文件
-     * @auth 30
-     * @param string $fileName 文件名，收到消息中的语音文件名(file)
-     * @param string $format 指定格式，应用所需的语音文件格式，目前支持 mp3,amr,wma,m4a,spx,ogg,wav,flac
-     * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该语音文件内容(BASE64编码)
-     */
-    public function getRecordFile($fileName, $format='mp3')
-    {
-        $array = array(
-            'fun'=>'getRecordFile',
-            'source'=>$fileName,
-            'format'=>$format
-        );
-        return $this->sendData($array);
     }
 
     /**
@@ -768,7 +669,7 @@ class get_CoolQ extends core_CoolQ
      */
     public function getRunStatus($time=3)
     {
-        $arr = $this->sendData(array('fun'=>'checkRun'),$time);
+        $arr = $this->sendData(array('fun'=>'getRunStatus'),$time);
         return (!$arr['status']) ? true : false;
     }
 
@@ -798,7 +699,7 @@ class get_CoolQ extends core_CoolQ
 
     /**
      * 取陌生人信息
-     * @auth 131
+     * @auth 131，20
      * @param number $qq 目标QQ
      * @param bool $useCache 不使用缓存，True/使用 False/不使用，默认为 False
      * @return array 成功时，数组中成员Status的值为0，并在成员Result中返回：该QQ的部分个人信息
@@ -806,7 +707,7 @@ class get_CoolQ extends core_CoolQ
     public function getStrangerInfo($qq, $useCache=true)
     {
         $arr = $this->newArray('getStrangerInfo','',$qq);
-        $arr['cache'] = $useCache ? 1 : 0;
+        $arr['cache'] = $useCache;
         return $this->sendData($arr);
     }
 
@@ -843,6 +744,21 @@ class send_CoolQ extends get_CoolQ
     public function sendDiscussMsg($discuss, $msg)
     {
         return $this->sendMsg('sendDiscussMsg',$discuss,'',$msg);
+    }
+
+    /**
+     * 送花
+     * 需要账户中有金豆
+     * @auth 20
+     * @param number $group 群号
+     * @param number $qq QQ号
+     * @return int 状态码
+     */
+    public function sendFlower($group, $qq)
+    {
+        $array = $this->newArray('sendFlower', $group, $qq);
+        $array = $this->sendData($array);
+        return $array['status'];
     }
 
     /**
@@ -964,7 +880,7 @@ class set_CoolQ extends send_CoolQ
     public function setGroupAdmin($group, $qq, $become=false)
     {
         $arr = $this->newArray('setGroupAdmin',$group,$qq);
-        $arr['become'] = $become ? 1 : 0;
+        $arr['become'] = $become;
         $arr = $this->sendData($arr);
         return $arr['status'];
     }
@@ -979,7 +895,7 @@ class set_CoolQ extends send_CoolQ
     public function setGroupAnonymous($group, $open=false)
     {
         $arr = $this->newArray('setGroupAnonymous',$group);
-        $arr['open'] = $open ? 1 : 0;
+        $arr['open'] = $open;
         $arr = $this->sendData($arr);
         return $arr['status'];
     }
@@ -1043,7 +959,7 @@ class set_CoolQ extends send_CoolQ
     public function setGroupLeave($group, $disband=false)
     {
         $arr = $this->newArray('setGroupLeave',$group);
-        $arr['disband'] = $disband ? 1 : 0;
+        $arr['disband'] = $disband;
         $arr = $this->sendData($arr);
         return $arr['status'];
     }
@@ -1059,7 +975,7 @@ class set_CoolQ extends send_CoolQ
     public function setGroupKick($group, $qq, $refuseJoin=false)
     {
         $arr = $this->newArray('setGroupKick',$group,$qq);
-        $arr['refuseJoin'] = $refuseJoin ? 1 : 0;
+        $arr['refuseJoin'] = $refuseJoin;
         $arr = $this->sendData($arr);
         return $arr['status'];
     }
@@ -1104,7 +1020,7 @@ class set_CoolQ extends send_CoolQ
     public function setGroupWholeBan($group, $open=false)
     {
         $arr = $this->newArray('setGroupWholeBan',$group);
-        $arr['open'] = $open ? 1 : 0;
+        $arr['open'] = $open;
         $arr = $this->sendData($arr);
         return $arr['status'];
     }
