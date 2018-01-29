@@ -1,7 +1,9 @@
 配置方法
 ---
-1. 将``demo.py``、``cq_class.py``和``__init__.py``放在同一目录下
+优化后的 http-to-cq https://github.com/Hstb1230/http-to-cq pythonSDK
+1. 需要库 web.py http://webpy.org/
 2. 打开``demo.py``，修改接入数据的方法，并且根据 插件设置 修改配置
+3. 在文件夹 plugin 写/修改 插件
  配置参数说明：
 
  |  参数 |  默认值  |  说明  |
