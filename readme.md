@@ -30,27 +30,38 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 * 如果需要调用动态API，请设置 动态交互 的 监听端口。
 * 如果需要保证数据一定的真实性，请开启 校验数据 开关，并设置key
 
-## SDK文件
+## SDK
+* 以下是部分语言的sdk，在感谢这些开发者的辛勤付出。
 
-* [PHP SDK](https://github.com/Hstb1230/CtPe/tree/master/demo/php)
-* [Python SDK](https://github.com/Hstb1230/CtPe/tree/master/demo/python)
- 
+| 语言 | 地址 | 作者 | 备注 |
+| --- | ---- | --- | --- |
+| Java | [ForeverWJY/CoolQ_Java_Plugin] | ForeverWJY | 已兼容v2.x |
+| PHP | [Hstb1230/http-to-cq/php] | Hstb1230 | 已兼容v2.x |
+| PHP | [fastgoo/cq-http-phpsdk] | fastgoo | 已兼容v2.x |
+| PHP | [HiiLee/CoolQQ] | HiiLee | 只兼容v1.3 |
+| Python | [Hstb1230/http-to-cq/python] | Hstb1230 | 已兼容v2.x |
+| Python | [HuskyBabyY/http-to-cq] | HuskyBabyY | 已兼容v2.x |
+
 ## 文档
 
 遇到使用问题时，可以先翻翻它：
 * [ZeroDoc]
-* [wiki]
+* [GithubWiki]
 
 ## 反馈地址
 * [Q群]
 * [issue]
-* [交流社区]
 
 
 [issue]: https://github.com/Hstb1230/CtPe/issues
-[Q群]: https://jq.qq.com/?_wv=1027&amp;k=4EvsX5W
-[交流社区]: https://ask.1sls.cn
-[wiki]: https://github.com/Hstb1230/CtPe/wiki
-[ZeroDoc]: http://doc.inlinc.org/http-to-cq/
+[Q群]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
+[GithubWiki]: https://github.com/Hstb1230/CtPe/wiki
+[ZeroDoc]: http://doc.inlinc.org/
 [Release]: https://github.com/Hstb1230/CtPe/releases
-[GitBook]: https://hstb1230.gitbooks.io/http-to-cq/content/
+
+[ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
+[Hstb1230/http-to-cq/php]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/php
+[fastgoo/cq-http-phpsdk]: https://github.com/fastgoo/cq-http-phpsdk 
+[HiiLee/CoolQQ]: https://github.com/HiiLee/CoolQQ
+[HuskyBabyY/http-to-cq]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/python_byHuskyBabyY
+[Hstb1230/http-to-cq/python]: https://github.com/Hstb1230/CtPe/tree/master/demo/python
