@@ -5,11 +5,11 @@
     "ret":1,					// 返回码，固定为1
     "apiver":9,					// Api版本，本SDK为9
     "name":"HTTP API",		// 应用名称
-    "version":"2.1.4.1",			// 应用版本 // 修复版本在最后加，更新版本直接加倒二位
-    "version_id":675,				// 应用顺序版本（每次发布时至少+1）
+    "version":"2.1.4.2",			// 应用版本 // 修复版本在最后加，更新版本直接加倒二位
+    "version_id":677,				// 应用顺序版本（每次发布时至少+1）
     "author":"Hstb",			// 应用作者
     "description":"通过HTTP协议调用酷Q API",
-	"md5":"682ed0412e2a5c0f077f0a1aaf830d69",
+	"md5":"824c3e0a1b586661722d7fa0e6201dd5",
     "event":[					// 事件列表，同一事件类型可重复定义（发布前请删除无用事件）
         {
             "id":1,							// 事件ID
@@ -155,6 +155,7 @@
         150,  //置好友添加请求		setFriendAddRequest
         151,  //置群添加请求		setGroupAddRequest
 		160,  //取群成员列表		getGroupMemberList
-		161   //取群列表			getGroupList
+		161,  //取群列表			getGroupList
+		180   //撤回消息            deleteMsg
     ]
 }
