@@ -55,9 +55,9 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 
 [issue]: https://github.com/Hstb1230/CtPe/issues
 [Q群]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
-[GithubWiki]: https://github.com/Hstb1230/CtPe/wiki
-[ZeroDoc]: http://doc.inlinc.org/
-[Release]: https://github.com/Hstb1230/CtPe/releases
+[GithubWiki]: https://github.com/Hstb1230/Http-to-cq/wiki
+[ZeroDoc]: https://www.kancloud.cn/zerolib/http-to-cq/387458
+[Release]: https://github.com/Hstb1230/Http-to-cq/releases
 
 [ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
 [Hstb1230/http-to-cq/php]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/php
