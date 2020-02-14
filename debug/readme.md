@@ -1,16 +1,16 @@
 目录结构
 ---
 ```
-- org.inlinc.inhttp.dll    // dll文件
-- org.inlinc.inhttp.json   // 插件说明文件，ANSI编码。
+- app.dll    // dll文件
+- app.json   // 插件说明文件，UTF-8编码。
 ```
 说明
 ---
-* 此文件夹下的文件为开发者模式使用的文件，同时放置在酷Q的app目录下即可。
+* 此文件夹下的文件为开发者模式使用的文件，同时放置在酷Q的`\dev\org.inlinc.inhttp\`目录下即可。
 * json文件为插件说明文件，可用于自定义插件权限，接收的事件类型。
 
 > 如何启用开发者模式?
-* 请打开酷Q目录下的/conf/CQP(CQA).cfg，加入以下代码：
+* 请打开酷Q目录下的`/conf/CQP(CQA).cfg`，加入以下代码：
 
 ```
 [Dev]
