@@ -21,8 +21,8 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 
 ### 安装插件
 
-1. 从 [Release] 中下载最新版，并解压文件，
-2. 将```org.inlinc.inhttp.cpk```放到```app```文件夹，重启酷Q并启用插件，
+1. 在 [Release] 中下载最新版文件(如果是压缩包, 需要先解压)，
+2. 将```org.inlinc.inhttp.cpk```放到```\data\app\```目录下，重启酷Q并启用插件，
 
 ###  配置插件
 
@@ -31,7 +31,8 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 * 如果需要保证数据一定的真实性，请开启 校验数据 开关，并设置key
 
 ## SDK
-* 以下是部分语言的sdk，在感谢这些开发者的辛勤付出。
+
+* 以下是部分语言的SDK，在感谢这些开发者的辛勤付出。
 
 | 语言 | 地址 | 作者 | 备注 |
 | --- | ---- | --- | --- |
@@ -42,22 +43,34 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 | Python | [Hstb1230/http-to-cq/python] | Hstb1230 | 已兼容v2.x |
 | Python | [HuskyBabyY/http-to-cq] | HuskyBabyY | 已兼容v2.x |
 
-## 文档
+若您编写了SDK, 但未被收录, 请联系我添加.
+
+## 使用文档
 
 遇到使用问题时，可以先翻翻它：
 * [ZeroDoc]
 * [GithubWiki]
 
-## 反馈地址
-* [Q群]
+## 如何联系
+* [Ask社区]
 * [issue]
 
+## 许可证说明
+
+许可证本身并无什么法律效力, 只是为了提醒使用者遵守道德规范, 保持职业操守.
+
+代码曾经开源过, 但最后还是发生了我所担心和反感的不合乎道德的重新分发行为, 因此转为闭源,
+
+但为了防止自己哪天想不开, 又将代码开源, 却再出现不道德的行为, 因此花时间编写了本许可证.
+
+关于特殊约定的修改权问题, 我能保证不添加过分的限制, 若您不放心, 认为部分限制存在问题, 可以提出质疑, 或使用其他软件.
 
 [issue]: https://github.com/Hstb1230/CtPe/issues
 [Q群]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
 [GithubWiki]: https://github.com/Hstb1230/Http-to-cq/wiki
 [ZeroDoc]: https://www.kancloud.cn/zerolib/http-to-cq/387458
 [Release]: https://github.com/Hstb1230/Http-to-cq/releases
+[Ask社区]: https://ask.1sls.cn/
 
 [ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
 [Hstb1230/http-to-cq/php]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/php
