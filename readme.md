@@ -1,9 +1,9 @@
 HTTP API 插件
 ---
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Release](https://img.shields.io/github/release/Hstb1230/CtPe.svg)][Release]
-[![Download Count](https://img.shields.io/github/downloads/Hstb1230/CtPe/total.svg)][Release]
-[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-553601318-blue.svg)][Q群]
+[![Last Commit]][commit]
+[![Latest release]][Release]
+[![Download Count]][Release]
+[![Q群]][Q群链接]
 
 ## **说明**
 
@@ -66,7 +66,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 关于特殊约定的修改权问题, 我能保证不添加过分的限制, 若您不放心, 认为部分限制存在问题, 可以提出质疑, 或使用其他软件.
 
 [issue]: https://github.com/Hstb1230/CtPe/issues
-[Q群]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
+[Q群链接]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
 [GithubWiki]: https://github.com/Hstb1230/Http-to-cq/wiki
 [ZeroDoc]: https://www.kancloud.cn/zerolib/http-to-cq/387458
 [Release]: https://github.com/Hstb1230/Http-to-cq/releases
@@ -78,3 +78,10 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [HiiLee/CoolQQ]: https://github.com/HiiLee/CoolQQ
 [HuskyBabyY/http-to-cq]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/python_byHuskyBabyY
 [Hstb1230/http-to-cq/python]: https://github.com/Hstb1230/CtPe/tree/master/demo/python
+
+[Last Commit]: https://img.shields.io/github/last-commit/Hstb1230/http-to-cq "tree/cpp"
+[Latest release]: https://img.shields.io/github/release/Hstb1230/http-to-cq.svg "Latest release"
+[Download Count]: https://img.shields.io/github/downloads/Hstb1230/CtPe/total.svg "Download Count"
+[Q群]: https://img.shields.io/badge/Q%E7%BE%A4-553601318-blue.svg "Q群"
+
+[commit]: https://github.com/Hstb1230/http-to-cq/commits/master
