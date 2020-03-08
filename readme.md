@@ -1,7 +1,8 @@
 HTTP API 插件
 ---
 [![Last Commit]][commit]
-[![Latest release]][Release]
+[![Latest release]][Latest Release]
+[![Pre-release]][Release]
 [![Download Count]][Release]
 [![Q群]][Q群链接]
 
@@ -22,7 +23,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 ### 安装插件
 
 1. 在 [Release] 中下载最新版文件(如果是压缩包, 需要先解压)，
-2. 将`org.inlinc.inhttp.cpk`放到`\app\`目录下，在 **重启酷Q** 或 **重载应用** 后, 启用插件，
+2. 将`org.inlinc.inhttp.cpk`放到 **`\app\`** 目录下，在 **重启酷Q** 或 **重载应用** 后, 启用插件，
 
 ###  配置插件
 
@@ -69,7 +70,6 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [Q群链接]: https://jq.qq.com/?_wv=1027&k=4EvsX5W
 [GithubWiki]: https://github.com/Hstb1230/Http-to-cq/wiki
 [ZeroDoc]: https://www.kancloud.cn/zerolib/http-to-cq/387458
-[Release]: https://github.com/Hstb1230/Http-to-cq/releases
 [Ask社区]: https://ask.1sls.cn/
 
 [ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
@@ -80,8 +80,11 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [Hstb1230/http-to-cq/python]: https://github.com/Hstb1230/CtPe/tree/master/demo/python
 
 [Last Commit]: https://img.shields.io/github/last-commit/Hstb1230/http-to-cq "tree/cpp"
-[Latest release]: https://img.shields.io/github/release/Hstb1230/http-to-cq.svg "Latest release"
+[Latest release]: https://img.shields.io/github/release/Hstb1230/http-to-cq.svg?label=Latest%20release "Latest release"
+[Pre-release]: https://img.shields.io/github/v/release/Hstb1230/http-to-cq?include_prereleases&label=Pre-release "Pre-release"
 [Download Count]: https://img.shields.io/github/downloads/Hstb1230/CtPe/total.svg "Download Count"
 [Q群]: https://img.shields.io/badge/Q%E7%BE%A4-553601318-blue.svg "Q群"
 
 [commit]: https://github.com/Hstb1230/http-to-cq/commits/master
+[Release]: https://github.com/Hstb1230/http-to-cq/releases/
+[Latest Release]: https://github.com/Hstb1230/http-to-cq/releases/latest
