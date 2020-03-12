@@ -38,6 +38,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 | 语言 | 地址 | 作者 | 备注 |
 | --- | ---- | --- | --- |
 | Java | [ForeverWJY/CoolQ_Java_Plugin] | ForeverWJY | 已兼容v2.x |
+| Java | [ForteScarlet/simple-robot-component-httpapi] | ForteScarlet | 已兼容v2.x |
 | PHP | [Hstb1230/http-to-cq/php] | Hstb1230 | 已兼容v2.x |
 | PHP | [fastgoo/cq-http-phpsdk] | fastgoo | 已兼容v2.x |
 | PHP | [HiiLee/CoolQQ] | HiiLee | 只兼容v1.3 |
@@ -73,6 +74,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [Ask社区]: https://ask.1sls.cn/
 
 [ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
+[ForteScarlet/simple-robot-component-httpapi]: https://github.com/ForteScarlet/simple-robot-component-httpapi
 [Hstb1230/http-to-cq/php]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/php
 [fastgoo/cq-http-phpsdk]: https://github.com/fastgoo/cq-http-phpsdk 
 [HiiLee/CoolQQ]: https://github.com/HiiLee/CoolQQ
