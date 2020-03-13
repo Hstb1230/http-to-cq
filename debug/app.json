@@ -6,10 +6,10 @@
     "apiver":9,					// Api版本，本SDK为9
     "name":"HTTP API",		// 应用名称
     "version":"2.1.4.11",			// 应用版本 // 修复版本在最后加，更新版本直接加倒二位
-    "version_id":775,				// 应用顺序版本（每次发布时至少+1）
+    "version_id":776,				// 应用顺序版本（每次发布时至少+1）
     "author":"Hstb",			// 应用作者
     "description":"通过HTTP协议调用酷Q API",
-	"md5":"771a2763b062cb52b8fe2f2516a1a5d4",
+	"md5":"ca5a3106a9678c26a6e10a8c23ed80cd",
     "event":[					// 事件列表，同一事件类型可重复定义（发布前请删除无用事件）
         {
             "id":1,							// 事件ID
