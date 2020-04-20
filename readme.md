@@ -8,7 +8,7 @@ HTTP API 插件
 
 ## **说明**
 
-HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框架和工具包。 它的目标是让你能够使用其他语言开发酷Q插件，它提供了酷Q大部分原生API，以及插件自集成的API，通过这些，丰富你的机器人功能。
+HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框架和工具包。 它的目标是让你能够使用其他语言开发酷Q插件，它提供了酷Q大部分原生API，以及插件自集成的API，通过这些丰富你的机器人功能。
 
 ## **功能**
 
@@ -39,17 +39,18 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 | --- | ---- | --- | --- |
 | Java | [ForeverWJY/CoolQ_Java_Plugin] | ForeverWJY | 已兼容v2.x |
 | Java | [ForteScarlet/simple-robot-component-httpapi] | ForteScarlet | 已兼容v2.x |
+| PHP | [admin1234566/jailbot] | admin1234566 | 已兼容v2.x |
 | PHP | [Hstb1230/http-to-cq/php] | Hstb1230 | 已兼容v2.x |
 | PHP | [fastgoo/cq-http-phpsdk] | fastgoo | 已兼容v2.x |
 | PHP | [HiiLee/CoolQQ] | HiiLee | 只兼容v1.3 |
 | Python | [Hstb1230/http-to-cq/python] | Hstb1230 | 已兼容v2.x |
 | Python | [HuskyBabyY/http-to-cq] | HuskyBabyY | 已兼容v2.x |
 
-若您编写了SDK, 但未被收录, 请联系我添加.
+若您编写了SDK但未被收录, 请联系我添加.
 
 ## 使用文档
 
-遇到问题时，可以先翻翻文档
+遇到问题时可以先翻翻文档
 * [Zero Doc]（推荐）
 * [Github Wiki]
 
@@ -80,6 +81,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 
 [ForeverWJY/CoolQ_Java_Plugin]: https://github.com/ForeverWJY/CoolQ_Java_Plugin
 [ForteScarlet/simple-robot-component-httpapi]: https://github.com/ForteScarlet/simple-robot-component-httpapi
+[admin1234566/jailbot]: https://code.aliyun.com/admin1234566/jailbot
 [Hstb1230/http-to-cq/php]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/php
 [fastgoo/cq-http-phpsdk]: https://github.com/fastgoo/cq-http-phpsdk 
 [HiiLee/CoolQQ]: https://github.com/HiiLee/CoolQQ
