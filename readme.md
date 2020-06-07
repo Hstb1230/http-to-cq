@@ -118,7 +118,7 @@ HTTP对接插件 是一套给 Web网站 开发者使用的应用程序开发框�
 [Hstb1230/http-to-cq/python]: https://github.com/Hstb1230/http-to-cq/tree/master/demo/python
 
 [Last Commit]: https://img.shields.io/github/last-commit/Hstb1230/http-to-cq/2.5 "v2.5"
-[Latest release]: https://img.shields.io/github/v/release/Hstb1230/http-to-cq "Latest release"
+[Latest release]: https://img.shields.io/github/v/release/Hstb1230/http-to-cq?label=Latest%20release "Latest release"
 [Pre-release]: https://img.shields.io/github/v/release/Hstb1230/http-to-cq?include_prereleases&label=Pre-release&sort=semver "Pre-release"
 [Download Count]: https://img.shields.io/github/downloads/Hstb1230/http-to-cq/total.svg "Download Count"
 [Q群]: https://img.shields.io/badge/Q%E7%BE%A4-553601318-blue.svg "Q群"
